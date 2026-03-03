@@ -53,15 +53,15 @@ export type SiteData = {
 export const siteData: SiteData = {
   name: "Linn Khant Thuya",
   tagline:
-    "UCLA CS student building practical systems across ML, geospatial data, and full-stack web apps.",
-  location: "Los Angeles, CA",
+    "SWE focused on full-stack and agentic systems, building scalable software that creates real-world impact.",
+  location: "UCLA CS '27",
   email: "linn.thuya247@gmail.com",
   github: "https://github.com/linnkhant07",
   linkedin: "https://www.linkedin.com/in/linn-khant-thuya/",
   aboutParagraphs: [
-    "I am a Computer Science student at UCLA focused on building reliable, high-impact software with measurable outcomes.",
-    "At NASA JPL, I built geospatial post-processing pipelines that improved Venus map accuracy by 30-40% and automated workflows that previously required over 1,000 hours.",
-    "I enjoy turning complex data and engineering constraints into tools people can use, from crisis-response platforms serving thousands to internal systems adopted by research teams.",
+    "I am a software engineer and UCLA CS student focused on full-stack development and agentic systems.",
+    "I care about building software that scales and actually helps people, especially in high-stakes, real-world use cases.",
+    "My goal is to ship products that are technically strong, user-centered, and capable of creating meaningful impact.",
   ],
   skills: [
     {
