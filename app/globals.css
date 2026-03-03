@@ -77,18 +77,6 @@ button {
   animation: stickmanPaceShift 1400ms ease-in-out infinite;
 }
 
-.stickman-walk {
-  animation: stickmanWalkShift 520ms ease-in-out infinite;
-}
-
-.stickman-descend {
-  animation: stickmanDescendShift 1200ms ease-in-out infinite;
-}
-
-.soccer-ball-spin {
-  animation: soccerBallSpin 640ms linear infinite;
-}
-
 @keyframes stickmanBodyBob {
   0%,
   100% {
@@ -149,50 +137,13 @@ button {
   }
 }
 
-@keyframes stickmanWalkShift {
-  0%,
-  100% {
-    transform-origin: center bottom;
-    scale: 1;
-  }
-  50% {
-    scale: 0.985 1.015;
-  }
-}
-
-@keyframes stickmanDescendShift {
-  0%,
-  100% {
-    transform-origin: center center;
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 2px;
-  }
-}
-
-@keyframes soccerBallSpin {
-  0% {
-    rotate: 0deg;
-  }
-  100% {
-    rotate: 360deg;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .stickman-body,
   .stickman-arm-left,
   .stickman-arm-right,
   .stickman-leg-left,
   .stickman-leg-right,
-  .stickman-pace,
-  .stickman-walk,
-  .stickman-descend {
-    animation: none !important;
-  }
-
-  .soccer-ball-spin {
+  .stickman-pace {
     animation: none !important;
   }
 }
