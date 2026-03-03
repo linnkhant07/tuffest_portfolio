@@ -1,6 +1,6 @@
 import { siteData } from "@/content/siteData";
 
-const stats = ["Research + Systems", "ML + Infra", "Ship fast"];
+const stats = ["UCLA CS '27", "NASA JPL Intern", "LinkedIn Intern '26"];
 
 export function Hero() {
   return (
@@ -14,7 +14,7 @@ export function Hero() {
           {siteData.location}
         </p>
         <h1 className="max-w-4xl text-balance text-4xl font-semibold leading-tight text-[var(--text-strong)] sm:text-5xl lg:text-6xl">
-          Products earn trust when every layer is intentional.
+          Building reliable software for real-world impact.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--text-muted)]">
           {siteData.tagline}

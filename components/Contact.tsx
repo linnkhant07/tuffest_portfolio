@@ -27,8 +27,8 @@ export function Contact() {
           Let&apos;s talk
         </h2>
         <p className="mt-4 max-w-2xl text-[var(--text-muted)]">
-          I&apos;m open to staff-level frontend roles, product engineering leadership, and
-          high-ownership collaborations.
+          I&apos;m open to software engineering internships and collaborative projects in full-stack,
+          ML, and data-intensive systems.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-4">
