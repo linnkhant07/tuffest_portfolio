@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0f1212;
+  --panel: #171c1c;
+  --panel-soft: #151a1a;
+  --text-strong: #f3f5f4;
+  --text-muted: #b8bfbc;
+  --text-dim: #8f9894;
+  --accent: #6db889;
+  --accent-strong: #82d69f;
+}
+
+@theme inline {
+  --font-sans: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-strong);
+  font-family: var(--font-sans), sans-serif;
+}
+
+.hero-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 95%);
+}
+
+a,
+button {
+  outline-color: transparent;
+}
