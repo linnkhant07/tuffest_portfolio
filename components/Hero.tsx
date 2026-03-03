@@ -9,7 +9,7 @@ export function Hero() {
       className="relative overflow-hidden border-b border-white/10"
     >
       <div className="absolute inset-0 hero-grid opacity-40" aria-hidden />
-      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pb-24 sm:pt-24 lg:px-8 lg:pb-28 lg:pt-32">
+      <div className="relative mx-auto max-w-6xl px-4 pb-28 pt-28 sm:px-6 sm:pb-32 sm:pt-32 lg:px-8 lg:pb-40 lg:pt-44">
         <p className="mb-6 text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]">
           {siteData.location}
         </p>
