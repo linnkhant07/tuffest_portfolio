@@ -35,7 +35,8 @@ function CameraRig({ progress }: { progress: number }) {
       delta,
     );
     const clamped = THREE.MathUtils.clamp(smoothedProgress.current, 0, 1);
-    const targetZ = 10 - clamped * 150;
+    // Let the camera travel just a bit farther down the road.
+    const targetZ = 10 - clamped * 215;
     const targetX = Math.sin(clamped * Math.PI * 0.85) * 0.38;
     const targetY = 2.45 + Math.sin(clamped * Math.PI) * 0.04;
 
@@ -98,7 +99,7 @@ function CameraRig({ progress }: { progress: number }) {
 function PathMeshes() {
   const segments = useMemo(
     () =>
-      Array.from({ length: 86 }, (_, i) => {
+      Array.from({ length: 116 }, (_, i) => {
         const z = 8 - i * 1.9;
         const x = Math.sin(i * 0.23) * 2.2;
         return { z, x, tilt: Math.sin(i * 0.18) * 0.04 };
@@ -221,7 +222,7 @@ function GroundUplight({
     return () => {
       scene.remove(light.target);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scene]);
 
   // Keep target synced every frame; optionally sweep horizontally
@@ -231,7 +232,8 @@ function GroundUplight({
 
     if (scanCenterX !== undefined && scanAmplitude > 0 && scanSpeed > 0) {
       const t = clock.elapsedTime;
-      const x = scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
+      const x =
+        scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
       light.target.position.set(x, to[1], to[2]);
     }
 
@@ -279,7 +281,8 @@ function GroundEmitter({
   useFrame(({ clock }) => {
     if (!groupRef.current) return;
     const t = clock.elapsedTime;
-    const x = scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
+    const x =
+      scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
     target.current.set(x, targetY, targetZ);
     groupRef.current.position.set(base[0], base[1], base[2]);
     groupRef.current.lookAt(target.current);
@@ -296,19 +299,31 @@ function GroundEmitter({
       {/* Vertical stem */}
       <mesh position={[0, 0.5, 0]}>
         <cylinderGeometry args={[0.09, 0.09, 0.9, 16]} />
-        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+        <meshStandardMaterial
+          color="#f3f5f4"
+          metalness={0.6}
+          roughness={0.35}
+        />
       </mesh>
 
       {/* Pivot joint */}
       <mesh position={[0, 0.98, 0]}>
         <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+        <meshStandardMaterial
+          color="#f3f5f4"
+          metalness={0.6}
+          roughness={0.35}
+        />
       </mesh>
 
       {/* Upper arm */}
       <mesh position={[0, 1.25, 0.45]}>
         <boxGeometry args={[0.08, 0.08, 0.9]} />
-        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+        <meshStandardMaterial
+          color="#f3f5f4"
+          metalness={0.6}
+          roughness={0.35}
+        />
       </mesh>
 
       {/* Lamp head (Pixar-style) */}
@@ -316,7 +331,11 @@ function GroundEmitter({
         <mesh rotation={[Math.PI / 2.2, 0, 0]}>
           {/* Shade */}
           <coneGeometry args={[0.45, 0.6, 24, 1, true]} />
-          <meshStandardMaterial color="#f3f5f4" metalness={0.5} roughness={0.4} />
+          <meshStandardMaterial
+            color="#f3f5f4"
+            metalness={0.5}
+            roughness={0.4}
+          />
         </mesh>
         <mesh position={[0, 0.18, 0.16]}>
           {/* Glowing inner face */}
@@ -391,7 +410,7 @@ function Firefly({ origin }: { origin: [number, number, number] }) {
 
 function WarriorCreed({ progress = 0 }: { progress?: number }) {
   const revealed = Math.max(0, Math.min(1, (progress - 0.78) / 0.18));
-  const origin: [number, number, number] = [2, 3.2, -162];
+  const origin: [number, number, number] = [2, 3.2, -230];
 
   return (
     <group>
@@ -453,7 +472,7 @@ export function InteractiveJourney3D({
         }}
       >
         <color attach="background" args={["#0f1212"]} />
-        <fog attach="fog" args={["#0f1212", 18, 175]} />
+        <fog attach="fog" args={["#0f1212", 18, 260]} />
         <ambientLight intensity={0.65} />
         <directionalLight position={[5, 10, 6]} intensity={1} color="#b8ffe0" />
         <directionalLight
@@ -463,7 +482,7 @@ export function InteractiveJourney3D({
         />
 
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.45, -68]}>
-          <planeGeometry args={[170, 260]} />
+          <planeGeometry args={[170, 380]} />
           <meshStandardMaterial
             color="#141919"
             roughness={0.98}
