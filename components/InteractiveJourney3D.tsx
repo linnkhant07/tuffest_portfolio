@@ -1,8 +1,8 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Html, Center, Text3D } from "@react-three/drei";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 type JourneyStop = {
@@ -28,7 +28,12 @@ function CameraRig({ progress }: { progress: number }) {
   const smoothedPitch = useRef(0);
 
   useFrame(({ camera }, delta) => {
-    smoothedProgress.current = THREE.MathUtils.damp(smoothedProgress.current, progress, 6, delta);
+    smoothedProgress.current = THREE.MathUtils.damp(
+      smoothedProgress.current,
+      progress,
+      6,
+      delta,
+    );
     const clamped = THREE.MathUtils.clamp(smoothedProgress.current, 0, 1);
     const targetZ = 10 - clamped * 150;
     const targetX = Math.sin(clamped * Math.PI * 0.85) * 0.38;
@@ -37,18 +42,51 @@ function CameraRig({ progress }: { progress: number }) {
     target.set(targetX, targetY, targetZ);
     lookAt.set(targetX * 0.18, 1.2, targetZ - 16);
 
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, target.x, 6, delta);
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, target.y, 6, delta);
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, target.z, 6, delta);
+    camera.position.x = THREE.MathUtils.damp(
+      camera.position.x,
+      target.x,
+      6,
+      delta,
+    );
+    camera.position.y = THREE.MathUtils.damp(
+      camera.position.y,
+      target.y,
+      6,
+      delta,
+    );
+    camera.position.z = THREE.MathUtils.damp(
+      camera.position.z,
+      target.z,
+      6,
+      delta,
+    );
     camera.lookAt(lookAt.x, lookAt.y, lookAt.z);
 
     // Clamp and smooth camera rotation to prevent fast reverse-scroll spin.
     const maxYaw = 0.14;
     const maxPitch = 0.08;
-    const clampedYaw = THREE.MathUtils.clamp(camera.rotation.y, -maxYaw, maxYaw);
-    const clampedPitch = THREE.MathUtils.clamp(camera.rotation.x, -maxPitch, maxPitch);
-    smoothedYaw.current = THREE.MathUtils.damp(smoothedYaw.current, clampedYaw, 8, delta);
-    smoothedPitch.current = THREE.MathUtils.damp(smoothedPitch.current, clampedPitch, 8, delta);
+    const clampedYaw = THREE.MathUtils.clamp(
+      camera.rotation.y,
+      -maxYaw,
+      maxYaw,
+    );
+    const clampedPitch = THREE.MathUtils.clamp(
+      camera.rotation.x,
+      -maxPitch,
+      maxPitch,
+    );
+    smoothedYaw.current = THREE.MathUtils.damp(
+      smoothedYaw.current,
+      clampedYaw,
+      8,
+      delta,
+    );
+    smoothedPitch.current = THREE.MathUtils.damp(
+      smoothedPitch.current,
+      clampedPitch,
+      8,
+      delta,
+    );
     camera.rotation.y = smoothedYaw.current;
     camera.rotation.x = smoothedPitch.current;
     camera.rotation.z = 0;
@@ -77,7 +115,11 @@ function PathMeshes() {
           rotation={[segment.tilt, 0, 0]}
         >
           <boxGeometry args={[3.8, 0.12, 1.75]} />
-          <meshStandardMaterial color="#23302b" roughness={0.92} metalness={0.04} />
+          <meshStandardMaterial
+            color="#23302b"
+            roughness={0.92}
+            metalness={0.04}
+          />
         </mesh>
       ))}
     </group>
@@ -99,7 +141,12 @@ function SignPosts({
         const isActive = index <= activeIndex;
 
         return (
-          <Float key={item.id} speed={1.05} floatIntensity={0.12} rotationIntensity={0}>
+          <Float
+            key={item.id}
+            speed={1.05}
+            floatIntensity={0.12}
+            rotationIntensity={0}
+          >
             <group position={[x, 0.6, z]}>
               <mesh position={[0, 2.22, 0]}>
                 <boxGeometry args={[2.6, 2.65, 0.22]} />
@@ -141,7 +188,154 @@ function SignPosts({
   );
 }
 
-const CREED_FONT = "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json";
+// Theatrical ground uplight — aims from floor level up at the text
+// Optionally sweeps its target horizontally for a \"light show\" effect.
+function GroundUplight({
+  from,
+  to,
+  intensity,
+  color,
+  scanCenterX,
+  scanAmplitude = 0,
+  scanSpeed = 0,
+  phaseOffset = 0,
+}: {
+  from: [number, number, number];
+  to: [number, number, number];
+  intensity: number;
+  color: string;
+  scanCenterX?: number;
+  scanAmplitude?: number;
+  scanSpeed?: number;
+  phaseOffset?: number;
+}) {
+  const { scene } = useThree();
+  const lightRef = useRef<THREE.SpotLight>(null!);
+
+  useEffect(() => {
+    const light = lightRef.current;
+    if (!light) return;
+    light.target.position.set(to[0], to[1], to[2]);
+    light.target.updateMatrixWorld();
+    scene.add(light.target);
+    return () => {
+      scene.remove(light.target);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene]);
+
+  // Keep target synced every frame; optionally sweep horizontally
+  useFrame(({ clock }) => {
+    const light = lightRef.current;
+    if (!light) return;
+
+    if (scanCenterX !== undefined && scanAmplitude > 0 && scanSpeed > 0) {
+      const t = clock.elapsedTime;
+      const x = scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
+      light.target.position.set(x, to[1], to[2]);
+    }
+
+    light.target.updateMatrixWorld();
+  });
+
+  return (
+    <spotLight
+      ref={lightRef}
+      position={from}
+      intensity={intensity}
+      color={color}
+      angle={Math.PI / 8}
+      penumbra={0.4}
+      distance={50}
+      decay={2}
+      castShadow={false}
+    />
+  );
+}
+
+// Physical LED-style ground fixture that visually tracks the moving spotlight target.
+function GroundEmitter({
+  base,
+  scanCenterX,
+  scanAmplitude,
+  scanSpeed,
+  phaseOffset = 0,
+  targetY,
+  targetZ,
+  revealed,
+}: {
+  base: [number, number, number];
+  scanCenterX: number;
+  scanAmplitude: number;
+  scanSpeed: number;
+  phaseOffset?: number;
+  targetY: number;
+  targetZ: number;
+  revealed: number;
+}) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const target = useRef(new THREE.Vector3());
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return;
+    const t = clock.elapsedTime;
+    const x = scanCenterX + Math.sin(t * scanSpeed + phaseOffset) * scanAmplitude;
+    target.current.set(x, targetY, targetZ);
+    groupRef.current.position.set(base[0], base[1], base[2]);
+    groupRef.current.lookAt(target.current);
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* Heavy base */}
+      <mesh>
+        <cylinderGeometry args={[0.9, 0.9, 0.12, 28]} />
+        <meshStandardMaterial color="#dadfdd" metalness={0.4} roughness={0.5} />
+      </mesh>
+
+      {/* Vertical stem */}
+      <mesh position={[0, 0.5, 0]}>
+        <cylinderGeometry args={[0.09, 0.09, 0.9, 16]} />
+        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+      </mesh>
+
+      {/* Pivot joint */}
+      <mesh position={[0, 0.98, 0]}>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+      </mesh>
+
+      {/* Upper arm */}
+      <mesh position={[0, 1.25, 0.45]}>
+        <boxGeometry args={[0.08, 0.08, 0.9]} />
+        <meshStandardMaterial color="#f3f5f4" metalness={0.6} roughness={0.35} />
+      </mesh>
+
+      {/* Lamp head (Pixar-style) */}
+      <group position={[0, 1.25, 0.9]}>
+        <mesh rotation={[Math.PI / 2.2, 0, 0]}>
+          {/* Shade */}
+          <coneGeometry args={[0.45, 0.6, 24, 1, true]} />
+          <meshStandardMaterial color="#f3f5f4" metalness={0.5} roughness={0.4} />
+        </mesh>
+        <mesh position={[0, 0.18, 0.16]}>
+          {/* Glowing inner face */}
+          <circleGeometry args={[0.3, 28]} />
+          <meshStandardMaterial
+            color="#f5f5f5"
+            emissive="#f5f5f5"
+            emissiveIntensity={3.2 * revealed}
+            roughness={0.08}
+            metalness={0.2}
+          />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
+const CREED_FONT =
+  "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json";
 const CREED_TEXT = "UNTIL DEATH ALL DEFEAT IS PSYCHOLOGICAL";
 
 function Firefly({ origin }: { origin: [number, number, number] }) {
@@ -149,7 +343,8 @@ function Firefly({ origin }: { origin: [number, number, number] }) {
   const lightRef = useRef<THREE.PointLight>(null!);
   // Deterministic seeds via golden-ratio spacing so the pattern is always organic
   const seeds = useMemo(
-    () => Array.from({ length: 8 }, (_, i) => (i * 2.618 + 0.4) % (Math.PI * 2)),
+    () =>
+      Array.from({ length: 8 }, (_, i) => (i * 2.618 + 0.4) % (Math.PI * 2)),
     [],
   );
 
@@ -157,10 +352,10 @@ function Firefly({ origin }: { origin: [number, number, number] }) {
     const t = clock.elapsedTime;
     // Four waves with irrational frequency ratios — never repeat, never pendulum
     const rawX =
-      Math.sin(t * 0.21 + seeds[0]) * 7.0 +   // wide drift
-      Math.sin(t * 0.57 + seeds[1]) * 4.2 +   // medium wander
-      Math.sin(t * 1.29 + seeds[2]) * 1.6 +   // wobble
-      Math.sin(t * 0.33 + seeds[3]) * 1.8;    // cross-drift
+      Math.sin(t * 0.21 + seeds[0]) * 7.0 + // wide drift
+      Math.sin(t * 0.57 + seeds[1]) * 4.2 + // medium wander
+      Math.sin(t * 1.29 + seeds[2]) * 1.6 + // wobble
+      Math.sin(t * 0.33 + seeds[3]) * 1.8; // cross-drift
     const x = origin[0] + Math.max(-14, Math.min(14, rawX));
     const rawY =
       Math.sin(t * 0.39 + seeds[4]) * 0.9 +
@@ -183,7 +378,13 @@ function Firefly({ origin }: { origin: [number, number, number] }) {
         <sphereGeometry args={[0.04, 6, 6]} />
         <meshBasicMaterial color="#9effc8" />
       </mesh>
-      <pointLight ref={lightRef} color="#42e87c" intensity={4.2} distance={60} decay={1.4} />
+      <pointLight
+        ref={lightRef}
+        color="#42e87c"
+        intensity={4.2}
+        distance={60}
+        decay={1.4}
+      />
     </group>
   );
 }
@@ -194,25 +395,12 @@ function WarriorCreed({ progress = 0 }: { progress?: number }) {
 
   return (
     <group>
-      {/* Backlights — dark green, flanking the text from behind */}
+      {/* Dim dark-green backlight for depth */}
       <pointLight
-        position={[origin[0] - 16, origin[1] + 3, origin[2] - 3]}
-        intensity={revealed * 2.8}
-        color="#183d22"
-        distance={55}
-      />
-      <pointLight
-        position={[origin[0] + 16, origin[1] + 1, origin[2] - 3]}
-        intensity={revealed * 2.2}
-        color="#102a18"
-        distance={50}
-      />
-      {/* Rim light from slightly above-front */}
-      <pointLight
-        position={[origin[0], origin[1] + 6, origin[2] + 8]}
-        intensity={revealed * 1.4}
-        color="#1f5c30"
-        distance={42}
+        position={[origin[0], origin[1] + 4, origin[2] - 4]}
+        intensity={revealed * 1.2}
+        color="#0f2e1a"
+        distance={45}
       />
 
       <group position={origin}>
@@ -230,11 +418,11 @@ function WarriorCreed({ progress = 0 }: { progress?: number }) {
             >
               {CREED_TEXT}
               <meshStandardMaterial
-                color="#0e2218"
-                metalness={0.2}
-                roughness={0.82}
-                emissive="#061410"
-                emissiveIntensity={0.25}
+                color="#2c5b3c"
+                metalness={0.65}
+                roughness={0.32}
+                emissive="#184128"
+                emissiveIntensity={0.9}
                 transparent
                 opacity={revealed}
               />
@@ -258,17 +446,29 @@ export function InteractiveJourney3D({
       <Canvas
         dpr={[1, 1.5]}
         camera={{ position: [0, 2.5, 10], fov: 50 }}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
       >
         <color attach="background" args={["#0f1212"]} />
         <fog attach="fog" args={["#0f1212", 18, 175]} />
         <ambientLight intensity={0.65} />
         <directionalLight position={[5, 10, 6]} intensity={1} color="#b8ffe0" />
-        <directionalLight position={[-6, 5, -6]} intensity={0.4} color="#6b8190" />
+        <directionalLight
+          position={[-6, 5, -6]}
+          intensity={0.4}
+          color="#6b8190"
+        />
 
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.45, -68]}>
           <planeGeometry args={[170, 260]} />
-          <meshStandardMaterial color="#141919" roughness={0.98} metalness={0.02} />
+          <meshStandardMaterial
+            color="#141919"
+            roughness={0.98}
+            metalness={0.02}
+          />
         </mesh>
 
         <PathMeshes />
