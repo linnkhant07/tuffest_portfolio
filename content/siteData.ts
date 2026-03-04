@@ -53,7 +53,7 @@ export type SiteData = {
 export const siteData: SiteData = {
   name: "Linn Khant Thuya",
   tagline:
-    "SWE focused on full-stack and agentic systems, building scalable software that creates real-world impact.",
+    "SWE across backend, full-stack, and agentic systems; I design and deliver scalable systems at speed for web, mobile, and desktop.",
   location: "UCLA CS '27",
   email: "linn.thuya247@gmail.com",
   github: "https://github.com/linnkhant07",
@@ -157,6 +157,19 @@ export const siteData: SiteData = {
   ],
   projects: [
     {
+      slug: "kel-sel-yay-placeholder",
+      name: "Kel Sel Yay - Crisis Response Platform (Placeholder)",
+      oneLiner: "Real-time crisis-aid platform launched after the earthquake.",
+      description:
+        "Built and shipped a missing-person coordination platform after the 7.7 Thailand-Myanmar earthquake.",
+      highlights: [
+        "Onboarded 7.1K+ users and coordinated 18K+ missing-person reports",
+        "Handled 20K+ daily queries at 99.9% uptime",
+      ],
+      stack: ["Next.js", "Node.js", "MongoDB", "AWS S3"],
+      links: [{ label: "GitHub", href: "https://github.com/linnkhant07" }],
+    },
+    {
       slug: "kel-sel-yay",
       name: "Kel Sel Yay - Crisis Response Platform",
       oneLiner: "Real-time crisis-aid platform launched after the earthquake.",
@@ -185,6 +198,19 @@ export const siteData: SiteData = {
     {
       slug: "underwater-rover",
       name: "Underwater Rover",
+      oneLiner: "Competition rover with telemetry and control tooling.",
+      description:
+        "Engineered an Arduino-powered rover and Python control/visualization stack for the MATE ROV competition.",
+      highlights: [
+        "Ranked 13th out of 79 teams globally",
+        "Achieved 95% positioning accuracy during test runs",
+      ],
+      stack: ["Python", "Arduino", "Pandas", "Matplotlib", "Pygame"],
+      links: [{ label: "GitHub", href: "https://github.com/linnkhant07" }],
+    },
+    {
+      slug: "underwater-rover-next",
+      name: "Underwater Rover (Placeholder)",
       oneLiner: "Competition rover with telemetry and control tooling.",
       description:
         "Engineered an Arduino-powered rover and Python control/visualization stack for the MATE ROV competition.",

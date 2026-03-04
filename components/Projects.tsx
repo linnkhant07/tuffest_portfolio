@@ -1,13 +1,55 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteData } from "@/content/siteData";
 
 export function Projects() {
-  const [showAll, setShowAll] = useState(false);
-  const visibleProjects = useMemo(() => {
-    return showAll ? siteData.projects : siteData.projects.slice(0, 3);
-  }, [showAll]);
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const updateActiveIndex = () => {
+      const cards = Array.from(scroller.querySelectorAll<HTMLElement>("[data-project-card]"));
+      if (!cards.length) return;
+
+      const scrollerRect = scroller.getBoundingClientRect();
+      const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(cardCenter - scrollerCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      setActiveIndex(nearestIndex);
+    };
+
+    const centerInitialCard = () => {
+      const cards = Array.from(scroller.querySelectorAll<HTMLElement>("[data-project-card]"));
+      if (!cards.length) return;
+      const centerIndex = Math.floor(cards.length / 2);
+      cards[centerIndex]?.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
+    };
+
+    centerInitialCard();
+    updateActiveIndex();
+    scroller.addEventListener("scroll", updateActiveIndex, { passive: true });
+    window.addEventListener("resize", updateActiveIndex);
+
+    return () => {
+      scroller.removeEventListener("scroll", updateActiveIndex);
+      window.removeEventListener("resize", updateActiveIndex);
+    };
+  }, []);
 
   return (
     <section id="projects" className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
@@ -20,22 +62,27 @@ export function Projects() {
             Selected work
           </h2>
         </div>
-        {siteData.projects.length > 3 ? (
-          <button
-            type="button"
-            onClick={() => setShowAll((prev) => !prev)}
-            className="rounded-full border border-white/20 bg-[var(--panel-soft)] px-4 py-2 text-sm text-[var(--text-muted)] transition hover:border-[var(--accent)]/60 hover:text-[var(--text-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-          >
-            {showAll ? "Show less" : "View all"}
-          </button>
-        ) : null}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {visibleProjects.map((project) => (
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-5 bg-gradient-to-r from-[var(--bg)] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-5 bg-gradient-to-l from-[var(--bg)] to-transparent" />
+
+        <div
+          ref={scrollerRef}
+          className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-4 pt-2 [perspective:1400px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {siteData.projects.map((project, index) => (
           <article
             key={project.slug}
-            className="group rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 transition duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)]/40"
+            data-project-card
+            className={`group w-[88%] min-w-[88%] snap-center rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 transition duration-300 transform-gpu md:w-[46%] md:min-w-[46%] lg:w-[29%] lg:min-w-[29%] ${
+              index === activeIndex
+                ? "scale-[1.02] opacity-100 border-[var(--accent)]/35 shadow-[0_20px_48px_rgba(0,0,0,0.45)]"
+                : Math.abs(index - activeIndex) === 1
+                  ? "scale-[1] opacity-94 shadow-none"
+                  : "scale-[0.94] opacity-68 blur-[0.3px] shadow-none"
+            } hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:opacity-100 hover:blur-0`}
           >
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
               {project.oneLiner}
@@ -75,7 +122,8 @@ export function Projects() {
               ))}
             </div>
           </article>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
