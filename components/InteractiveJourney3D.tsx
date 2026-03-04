@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Html } from "@react-three/drei";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
 type JourneyStop = {
@@ -10,6 +10,8 @@ type JourneyStop = {
   title: string;
   period: string;
   copy: string;
+  detail: string;
+  imageHint: string;
 };
 
 type InteractiveJourney3DProps = {
@@ -21,18 +23,35 @@ type InteractiveJourney3DProps = {
 function CameraRig({ progress }: { progress: number }) {
   const target = new THREE.Vector3();
   const lookAt = new THREE.Vector3();
+  const smoothedProgress = useRef(progress);
+  const smoothedYaw = useRef(0);
+  const smoothedPitch = useRef(0);
 
-  useFrame(({ camera }) => {
-    const clamped = THREE.MathUtils.clamp(progress, 0, 1);
+  useFrame(({ camera }, delta) => {
+    smoothedProgress.current = THREE.MathUtils.damp(smoothedProgress.current, progress, 6, delta);
+    const clamped = THREE.MathUtils.clamp(smoothedProgress.current, 0, 1);
     const targetZ = 10 - clamped * 150;
-    const targetX = Math.sin(clamped * Math.PI * 2) * 1.8;
-    const targetY = 2.6 + Math.sin(clamped * Math.PI) * 0.18;
+    const targetX = Math.sin(clamped * Math.PI * 0.85) * 0.38;
+    const targetY = 2.45 + Math.sin(clamped * Math.PI) * 0.04;
 
     target.set(targetX, targetY, targetZ);
-    lookAt.set(targetX * 0.35, 1.15, targetZ - 12);
+    lookAt.set(targetX * 0.18, 1.2, targetZ - 16);
 
-    camera.position.lerp(target, 0.08);
-    camera.lookAt(lookAt);
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, target.x, 6, delta);
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, target.y, 6, delta);
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, target.z, 6, delta);
+    camera.lookAt(lookAt.x, lookAt.y, lookAt.z);
+
+    // Clamp and smooth camera rotation to prevent fast reverse-scroll spin.
+    const maxYaw = 0.14;
+    const maxPitch = 0.08;
+    const clampedYaw = THREE.MathUtils.clamp(camera.rotation.y, -maxYaw, maxYaw);
+    const clampedPitch = THREE.MathUtils.clamp(camera.rotation.x, -maxPitch, maxPitch);
+    smoothedYaw.current = THREE.MathUtils.damp(smoothedYaw.current, clampedYaw, 8, delta);
+    smoothedPitch.current = THREE.MathUtils.damp(smoothedPitch.current, clampedPitch, 8, delta);
+    camera.rotation.y = smoothedYaw.current;
+    camera.rotation.x = smoothedPitch.current;
+    camera.rotation.z = 0;
   });
 
   return null;
@@ -80,14 +99,14 @@ function SignPosts({
         const isActive = index <= activeIndex;
 
         return (
-          <Float key={item.id} speed={1.2} floatIntensity={0.28} rotationIntensity={0.04}>
+          <Float key={item.id} speed={1.05} floatIntensity={0.12} rotationIntensity={0}>
             <group position={[x, 0.6, z]}>
               <mesh position={[0, 0.6, 0]}>
                 <boxGeometry args={[0.16, 1.4, 0.16]} />
                 <meshStandardMaterial color="#6db889" roughness={0.75} metalness={0.08} />
               </mesh>
               <mesh position={[0, 1.33, 0]}>
-                <boxGeometry args={[1.9, 0.72, 0.22]} />
+                <boxGeometry args={[2.2, 0.96, 0.22]} />
                 <meshStandardMaterial
                   color={isActive ? "#2d4138" : "#202625"}
                   roughness={0.7}
@@ -96,7 +115,7 @@ function SignPosts({
               </mesh>
               <Html transform position={[0, 1.33, 0.16]} distanceFactor={14}>
                 <div
-                  className={`min-w-44 rounded-lg border px-3 py-2 shadow-xl backdrop-blur ${
+                  className={`w-52 rounded-xl border px-3 py-3 shadow-xl backdrop-blur ${
                     isActive
                       ? "border-[var(--accent)]/60 bg-[rgba(21,27,25,0.85)]"
                       : "border-white/15 bg-[rgba(18,22,22,0.8)]"
@@ -108,12 +127,40 @@ function SignPosts({
                   <p className="mt-1 text-xs font-semibold text-[var(--text-strong)]">
                     {item.title}
                   </p>
+                  <div className="mt-2 rounded border border-white/12 bg-[linear-gradient(135deg,rgba(61,75,70,0.42),rgba(24,30,29,0.72))] p-2">
+                    <div className="flex h-12 items-center justify-center rounded border border-dashed border-white/20 bg-black/20 px-1 text-center text-[10px] text-[var(--text-dim)]">
+                      {item.imageHint}
+                    </div>
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
+                    {item.detail}
+                  </p>
                 </div>
               </Html>
             </group>
           </Float>
         );
       })}
+    </group>
+  );
+}
+
+function EndMountains() {
+  return (
+    <group position={[0, 0.05, -162]}>
+      <mesh position={[-2.8, 1.2, 0]} rotation={[0, 0, 0]}>
+        <coneGeometry args={[4.2, 5.2, 4]} />
+        <meshStandardMaterial color="#233a2f" roughness={0.95} metalness={0.03} />
+      </mesh>
+      <mesh position={[2.2, 1.7, -2]}>
+        <coneGeometry args={[5.8, 7.2, 4]} />
+        <meshStandardMaterial color="#2b4638" roughness={0.92} metalness={0.04} />
+      </mesh>
+      <mesh position={[6.4, 1.1, 0.8]}>
+        <coneGeometry args={[3.6, 4.8, 4]} />
+        <meshStandardMaterial color="#1f342a" roughness={0.95} metalness={0.03} />
+      </mesh>
+      <pointLight position={[2.4, 6.4, 2]} intensity={0.5} color="#8ec8a8" distance={28} />
     </group>
   );
 }
@@ -143,6 +190,7 @@ export function InteractiveJourney3D({
 
         <PathMeshes />
         <SignPosts milestones={milestones} activeIndex={activeIndex} />
+        <EndMountains />
         <CameraRig progress={progress} />
       </Canvas>
     </div>

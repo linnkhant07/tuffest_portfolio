@@ -10,6 +10,8 @@ type JourneyStop = {
   title: string;
   period: string;
   copy: string;
+  detail: string;
+  imageHint: string;
 };
 
 const milestones: JourneyStop[] = [
@@ -18,24 +20,32 @@ const milestones: JourneyStop[] = [
     title: "PCC",
     period: "Foundation",
     copy: "Built the discipline: problem decomposition, coding fundamentals, and shipping under constraints.",
+    detail: "First real engineering reps: shipping features quickly, debugging under pressure, and learning by doing.",
+    imageHint: "Campus app UI placeholder",
   },
   {
     id: "ucla",
     title: "UCLA",
     period: "Systems + Research",
     copy: "Leveled up in algorithms, product thinking, and collaboration across technical and non-technical teams.",
+    detail: "Expanded depth in systems and product execution while balancing speed, rigor, and communication.",
+    imageHint: "Systems coursework placeholder",
   },
   {
     id: "jpl-veritas",
     title: "JPL / VERITAS",
     period: "Mission-Scale Engineering",
     copy: "Applied rigorous engineering in a high-stakes environment where precision, reliability, and documentation matter.",
+    detail: "Built reliable pipelines and mission-facing tools with measurable impact for planetary mapping workflows.",
+    imageHint: "Venus mapping workflow placeholder",
   },
   {
     id: "linkedin-intern",
     title: "LinkedIn Internship (Incoming)",
     period: "Next Chapter",
     copy: "Preparing to operate at internet scale, learn fast, and contribute to product impact from day one.",
+    detail: "Incoming chapter focused on high-scale engineering, execution discipline, and user-facing impact.",
+    imageHint: "LinkedIn team/project placeholder",
   },
 ];
 
@@ -116,7 +126,7 @@ export function InteractiveJourney() {
     setActiveIndex(index);
   });
 
-  const useFallback = reduceMotion || isMobile || webglAvailable === false;
+  const useFallback = reduceMotion || isMobile || webglAvailable !== true;
   const enable3D = nearViewport && webglAvailable === true && !reduceMotion && !isMobile;
 
   return (
