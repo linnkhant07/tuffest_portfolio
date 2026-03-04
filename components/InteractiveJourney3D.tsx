@@ -101,10 +101,6 @@ function SignPosts({
         return (
           <Float key={item.id} speed={1.05} floatIntensity={0.12} rotationIntensity={0}>
             <group position={[x, 0.6, z]}>
-              <mesh position={[0, 0.6, 0]}>
-                <boxGeometry args={[0.16, 1.4, 0.16]} />
-                <meshStandardMaterial color="#6db889" roughness={0.75} metalness={0.08} />
-              </mesh>
               <mesh position={[0, 2.22, 0]}>
                 <boxGeometry args={[2.6, 2.65, 0.22]} />
                 <meshStandardMaterial
