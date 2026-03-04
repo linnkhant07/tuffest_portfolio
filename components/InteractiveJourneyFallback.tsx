@@ -3,6 +3,8 @@ type JourneyStop = {
   title: string;
   period: string;
   copy: string;
+  detail: string;
+  imageHint: string;
 };
 
 type InteractiveJourneyFallbackProps = {
@@ -48,18 +50,34 @@ export function InteractiveJourneyFallback({
                     : "border-white/20 bg-[var(--panel)]"
                 }`}
               />
-              <article className="rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6">
+              <article className="rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 sm:p-7">
                 <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
                   {item.period}
                 </p>
                 <h3 className="mt-2 text-xl font-semibold text-[var(--text-strong)]">
                   {item.title}
                 </h3>
+                <div className="mt-4 rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(45,57,54,0.46),rgba(20,25,24,0.8))] p-3">
+                  <div className="flex h-28 items-center justify-center rounded border border-dashed border-white/20 bg-black/25 px-3 text-center text-xs text-[var(--text-dim)]">
+                    {item.imageHint}
+                  </div>
+                </div>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">{item.copy}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-dim)]">{item.detail}</p>
               </article>
             </li>
           ))}
         </ol>
+
+        <div className="mt-8 rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6">
+          <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">Destination</p>
+          <div className="mt-3 flex h-24 items-end justify-center gap-3 rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(61,75,70,0.34),rgba(19,23,23,0.8))] px-4 pb-2">
+            <div className="h-10 w-10 rotate-45 rounded-sm border border-white/15 bg-white/10" />
+            <div className="h-14 w-14 rotate-45 rounded-sm border border-white/20 bg-white/12" />
+            <div className="h-8 w-8 rotate-45 rounded-sm border border-white/15 bg-white/10" />
+          </div>
+          <p className="mt-3 text-xs text-[var(--text-dim)]">Mountain destination placeholder</p>
+        </div>
       </div>
     </div>
   );

@@ -18,9 +18,12 @@ export function Hero() {
           {siteData.location}
         </p>
         <p className="font-mono text-base text-[#ff5f56] sm:text-lg">
-          $whoami
+          <span className="hero-command-text">$whoami</span>
+          <span className="hero-command-cursor" aria-hidden>
+            _
+          </span>
         </p>
-        <h1 className="mt-4 max-w-4xl text-balance text-4xl font-semibold leading-tight text-[var(--text-strong)] sm:text-5xl lg:text-6xl">
+        <h1 className="hero-name-reveal mt-4 max-w-4xl text-balance text-4xl font-semibold leading-tight text-[var(--text-strong)] sm:text-5xl lg:text-6xl">
           {siteData.name}
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--text-muted)]">
