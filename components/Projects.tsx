@@ -37,7 +37,11 @@ export function Projects() {
       const cards = Array.from(scroller.querySelectorAll<HTMLElement>("[data-project-card]"));
       if (!cards.length) return;
       const centerIndex = Math.floor(cards.length / 2);
-      cards[centerIndex]?.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
+      const target = cards[centerIndex];
+      if (!target) return;
+
+      const targetLeft = target.offsetLeft - (scroller.clientWidth - target.clientWidth) / 2;
+      scroller.scrollLeft = Math.max(0, targetLeft);
     };
 
     centerInitialCard();
@@ -55,11 +59,14 @@ export function Projects() {
     <section id="projects" className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-[var(--text-dim)]">
-            Projects
+          <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
+            $ ls -a projects
+            <span className="command-cursor" aria-hidden>
+              _
+            </span>
           </p>
           <h2 className="mt-2 text-3xl font-semibold text-[var(--text-strong)] sm:text-4xl">
-            Selected work
+            Best Builds So Far
           </h2>
         </div>
       </div>
