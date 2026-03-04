@@ -50,7 +50,7 @@ export function InteractiveJourneyFallback({
                     : "border-white/20 bg-[var(--panel)]"
                 }`}
               />
-              <article className="rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-5 sm:p-6">
+              <article className="rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 sm:p-7">
                 <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
                   {item.period}
                 </p>
@@ -58,7 +58,7 @@ export function InteractiveJourneyFallback({
                   {item.title}
                 </h3>
                 <div className="mt-4 rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(45,57,54,0.46),rgba(20,25,24,0.8))] p-3">
-                  <div className="flex h-20 items-center justify-center rounded border border-dashed border-white/20 bg-black/25 px-3 text-center text-xs text-[var(--text-dim)]">
+                  <div className="flex h-28 items-center justify-center rounded border border-dashed border-white/20 bg-black/25 px-3 text-center text-xs text-[var(--text-dim)]">
                     {item.imageHint}
                   </div>
                 </div>

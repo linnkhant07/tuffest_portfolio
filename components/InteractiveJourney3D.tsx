@@ -105,17 +105,17 @@ function SignPosts({
                 <boxGeometry args={[0.16, 1.4, 0.16]} />
                 <meshStandardMaterial color="#6db889" roughness={0.75} metalness={0.08} />
               </mesh>
-              <mesh position={[0, 1.33, 0]}>
-                <boxGeometry args={[2.2, 0.96, 0.22]} />
+              <mesh position={[0, 2.22, 0]}>
+                <boxGeometry args={[2.6, 2.65, 0.22]} />
                 <meshStandardMaterial
                   color={isActive ? "#2d4138" : "#202625"}
                   roughness={0.7}
                   metalness={0.12}
                 />
               </mesh>
-              <Html transform position={[0, 1.33, 0.16]} distanceFactor={14}>
+              <Html transform position={[0, 2.22, 0.16]} distanceFactor={14}>
                 <div
-                  className={`w-52 rounded-xl border px-3 py-3 shadow-xl backdrop-blur ${
+                  className={`w-64 rounded-xl border px-3 py-4 shadow-xl backdrop-blur ${
                     isActive
                       ? "border-[var(--accent)]/60 bg-[rgba(21,27,25,0.85)]"
                       : "border-white/15 bg-[rgba(18,22,22,0.8)]"
@@ -128,11 +128,11 @@ function SignPosts({
                     {item.title}
                   </p>
                   <div className="mt-2 rounded border border-white/12 bg-[linear-gradient(135deg,rgba(61,75,70,0.42),rgba(24,30,29,0.72))] p-2">
-                    <div className="flex h-12 items-center justify-center rounded border border-dashed border-white/20 bg-black/20 px-1 text-center text-[10px] text-[var(--text-dim)]">
+                    <div className="flex h-32 items-center justify-center rounded border border-dashed border-white/20 bg-black/20 px-2 text-center text-[10px] text-[var(--text-dim)]">
                       {item.imageHint}
                     </div>
                   </div>
-                  <p className="mt-2 line-clamp-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
+                  <p className="mt-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
                     {item.detail}
                   </p>
                 </div>
