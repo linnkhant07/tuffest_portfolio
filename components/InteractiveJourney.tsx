@@ -16,36 +16,58 @@ type JourneyStop = {
 
 const milestones: JourneyStop[] = [
   {
-    id: "pcc",
-    title: "PCC",
+    id: "pcc-foundation",
+    title: "PCC – New Country, New Start",
     period: "Foundation",
-    copy: "Built the discipline: problem decomposition, coding fundamentals, and shipping under constraints.",
-    detail: "First real engineering reps: shipping features quickly, debugging under pressure, and learning by doing.",
-    imageHint: "Campus app UI placeholder",
+    copy: "Landed at Pasadena City College with a chip on my shoulder and something to prove.",
+    detail:
+      "Figured out college, work, and immigration all at once. Built core CS fundamentals and the study discipline that still carries everything else.",
+    imageHint: "PCC campus at dusk, notebook open next to a cheap laptop",
+  },
+  {
+    id: "caltech-research",
+    title: "Caltech Research",
+    period: "Touching the Frontier",
+    copy: "Stepped into Caltech labs to work on real research, not just problem sets.",
+    detail:
+      "Learned how to read papers, design experiments, and ship code that scientists can trust. Got comfortable being the least experienced person in the room and catching up fast.",
+    imageHint: "Terminal window next to messy whiteboard equations",
+  },
+  {
+    id: "jpl-intern",
+    title: "NASA JPL – Engineering",
+    period: "Mission-Scale Work",
+    copy: "Joined JPL to build tools that support actual space missions, not class projects.",
+    detail:
+      "Shipped data pipelines and internal tools used by mission teams. Wrote code that had to be correct, documented, and reproducible — not just clever.",
+    imageHint: "Earth and Venus side‑by‑side on mission dashboards",
+  },
+  {
+    id: "jpl-striker",
+    title: "JPL Striker",
+    period: "Pressure + Play",
+    copy: "Led the line as striker for JPL’s soccer team — same competitive edge, different field.",
+    detail:
+      "Learned how much engineering feels like sport: communication, positioning, and knowing when to take the risky shot instead of passing responsibility away.",
+    imageHint: "Floodlit field, boots and ball next to a JPL badge",
   },
   {
     id: "ucla",
     title: "UCLA",
-    period: "Systems + Research",
-    copy: "Leveled up in algorithms, product thinking, and collaboration across technical and non-technical teams.",
-    detail: "Expanded depth in systems and product execution while balancing speed, rigor, and communication.",
-    imageHint: "Systems coursework placeholder",
-  },
-  {
-    id: "jpl-veritas",
-    title: "JPL / VERITAS",
-    period: "Mission-Scale Engineering",
-    copy: "Applied rigorous engineering in a high-stakes environment where precision, reliability, and documentation matter.",
-    detail: "Built reliable pipelines and mission-facing tools with measurable impact for planetary mapping workflows.",
-    imageHint: "Venus mapping workflow placeholder",
+    period: "Systems & Scale",
+    copy: "Leveled up in systems, algorithms, and shipping work that has to handle real load.",
+    detail:
+      "Balanced heavy theory with projects, clubs, and mentoring. Learned to move from \"I can code this\" to \"I can design, communicate, and own this end‑to‑end.\"",
+    imageHint: "UCLA campus evening skyline with terminal open on a laptop",
   },
   {
     id: "linkedin-intern",
-    title: "LinkedIn Internship (Incoming)",
+    title: "LinkedIn (Incoming)",
     period: "Next Chapter",
-    copy: "Preparing to operate at internet scale, learn fast, and contribute to product impact from day one.",
-    detail: "Incoming chapter focused on high-scale engineering, execution discipline, and user-facing impact.",
-    imageHint: "LinkedIn team/project placeholder",
+    copy: "Now aiming at internet scale — bringing the same scrappy PCC energy into LinkedIn.",
+    detail:
+      "Focused on landing quickly, learning the stack, and shipping changes that actually move product metrics, not just look good on a résumé.",
+    imageHint: "LinkedIn feed UI with devtools open and breakpoints set",
   },
 ];
 
@@ -120,7 +142,10 @@ export function InteractiveJourney() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const clamped = Math.min(Math.max(latest, 0), 1);
+    // Scale progress so the journey \"finishes\" slightly before the end of the section
+    // (e.g. latest = 0.8 maps to clamped = 1).
+    const scaled = latest * 1.25;
+    const clamped = Math.min(Math.max(scaled, 0), 1);
     setProgress(clamped);
     const index = Math.round(clamped * (milestones.length - 1));
     setActiveIndex(index);
@@ -133,7 +158,7 @@ export function InteractiveJourney() {
     <section
       id="journey"
       ref={sectionRef}
-      className={`relative border-y border-white/10 ${useFallback ? "" : "h-[320vh]"}`}
+      className={`relative border-y border-white/10 ${useFallback ? "" : "h-[600vh]"}`}
     >
       {useFallback ? (
         <InteractiveJourneyFallback
