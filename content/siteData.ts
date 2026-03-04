@@ -59,9 +59,10 @@ export const siteData: SiteData = {
   github: "https://github.com/linnkhant07",
   linkedin: "https://www.linkedin.com/in/linn-khant-thuya/",
   aboutParagraphs: [
-    "I am a software engineer and UCLA CS student focused on full-stack development and agentic systems.",
-    "I care about building software that scales and actually helps people, especially in high-stakes, real-world use cases.",
-    "My goal is to ship products that are technically strong, user-centered, and capable of creating meaningful impact.",
+    "I am a first-generation student at UCLA studying CS and a software engineer who learned by building and shipping in real environments.",
+    "I care about building software that actually helps people, whether that is developers or general users, in real-world use cases.",
+    "I move fast, iterate quickly, and keep quality high.",
+    "If you have internship, full-time, mentorship, startup, or project opportunities, I'd love to connect!",
   ],
   skills: [
     {
@@ -143,8 +144,8 @@ export const siteData: SiteData = {
     {
       id: "linkedin",
       title: "LinkedIn",
-      subtitle: "Incoming Software Engineering Intern",
-      period: "Jun 2026 - Sep 2026",
+      subtitle: "Software Engineering Intern",
+      period: "Incoming Jun 2026 - Sep 2026",
       description:
         "Selected for LinkedIn's Summer 2026 software engineering intern cohort.",
       bullets: [
@@ -225,8 +226,8 @@ export const siteData: SiteData = {
   experience: [
     {
       org: "LinkedIn",
-      role: "Incoming Software Engineering Intern",
-      period: "Jun 2026 - Sep 2026",
+      role: "Software Engineering Intern",
+      period: "Incoming Jun 2026 - Sep 2026",
       bullets: [
         "Selected for the Summer 2026 software engineering intern cohort",
         "Preparing to contribute to large-scale production systems",

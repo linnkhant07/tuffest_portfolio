@@ -3,6 +3,25 @@
 import { useEffect, useRef, useState } from "react";
 import { siteData } from "@/content/siteData";
 
+const techBadgeClasses: Record<string, string> = {
+  "next.js": "border-white/20 bg-white/5 text-white/85",
+  "node.js": "border-[#68a063]/45 bg-[#68a063]/15 text-[#a9de9f]",
+  mongodb: "border-[#3fa037]/45 bg-[#3fa037]/15 text-[#9be28f]",
+  "aws s3": "border-[#ff9900]/45 bg-[#ff9900]/15 text-[#ffc46b]",
+  electronjs: "border-[#7fe7ff]/45 bg-[#7fe7ff]/15 text-[#b8f2ff]",
+  "c++": "border-[#6295cb]/45 bg-[#6295cb]/15 text-[#a8d0ff]",
+  "x86 assembly": "border-[#9b7dff]/45 bg-[#9b7dff]/15 text-[#ccb8ff]",
+  python: "border-[#f7a41d]/45 bg-[#f7a41d]/15 text-[#ffc96b]",
+  arduino: "border-[#00c2b8]/45 bg-[#00c2b8]/15 text-[#86efe9]",
+  pandas: "border-[#8f6eff]/45 bg-[#8f6eff]/15 text-[#ccbeff]",
+  matplotlib: "border-[#ff7f50]/45 bg-[#ff7f50]/15 text-[#ffb49a]",
+  pygame: "border-[#7cc34b]/45 bg-[#7cc34b]/15 text-[#bde79f]",
+};
+
+function getTechBadgeClass(tech: string) {
+  return techBadgeClasses[tech.toLowerCase()] ?? "border-white/15 bg-white/5 text-[var(--text-dim)]";
+}
+
 export function Projects() {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -12,7 +31,9 @@ export function Projects() {
     if (!scroller) return;
 
     const updateActiveIndex = () => {
-      const cards = Array.from(scroller.querySelectorAll<HTMLElement>("[data-project-card]"));
+      const cards = Array.from(
+        scroller.querySelectorAll<HTMLElement>("[data-project-card]"),
+      );
       if (!cards.length) return;
 
       const scrollerRect = scroller.getBoundingClientRect();
@@ -34,13 +55,16 @@ export function Projects() {
     };
 
     const centerInitialCard = () => {
-      const cards = Array.from(scroller.querySelectorAll<HTMLElement>("[data-project-card]"));
+      const cards = Array.from(
+        scroller.querySelectorAll<HTMLElement>("[data-project-card]"),
+      );
       if (!cards.length) return;
       const centerIndex = Math.floor(cards.length / 2);
       const target = cards[centerIndex];
       if (!target) return;
 
-      const targetLeft = target.offsetLeft - (scroller.clientWidth - target.clientWidth) / 2;
+      const targetLeft =
+        target.offsetLeft - (scroller.clientWidth - target.clientWidth) / 2;
       scroller.scrollLeft = Math.max(0, targetLeft);
     };
 
@@ -56,7 +80,10 @@ export function Projects() {
   }, []);
 
   return (
-    <section id="projects" className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+    <section
+      id="projects"
+      className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 lg:px-8"
+    >
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
           <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
@@ -66,7 +93,7 @@ export function Projects() {
             </span>
           </p>
           <h2 className="mt-2 text-3xl font-semibold text-[var(--text-strong)] sm:text-4xl">
-            Best Builds So Far
+            Best Works So Far
           </h2>
         </div>
       </div>
@@ -80,55 +107,55 @@ export function Projects() {
           className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-4 pt-2 [perspective:1400px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {siteData.projects.map((project, index) => (
-          <article
-            key={project.slug}
-            data-project-card
-            className={`group w-[88%] min-w-[88%] snap-center rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 transition duration-300 transform-gpu md:w-[46%] md:min-w-[46%] lg:w-[29%] lg:min-w-[29%] ${
-              index === activeIndex
-                ? "scale-[1.02] opacity-100 border-[var(--accent)]/35 shadow-[0_20px_48px_rgba(0,0,0,0.45)]"
-                : Math.abs(index - activeIndex) === 1
-                  ? "scale-[1] opacity-94 shadow-none"
-                  : "scale-[0.94] opacity-68 blur-[0.3px] shadow-none"
-            } hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:opacity-100 hover:blur-0`}
-          >
-            <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
-              {project.oneLiner}
-            </p>
-            <h3 className="mt-2 text-xl font-semibold text-[var(--text-strong)]">
-              {project.name}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-              {project.description}
-            </p>
-            <ul className="mt-4 space-y-2">
-              {project.highlights.slice(0, 2).map((item) => (
-                <li key={item} className="text-sm text-[var(--text-muted)]">
-                  - {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.stack.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-full border border-white/15 px-2.5 py-1 text-xs text-[var(--text-dim)]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <div className="mt-5 flex flex-wrap gap-3">
-              {project.links.map((link) => (
-                <a
-                  key={`${project.slug}-${link.label}`}
-                  href={link.href}
-                  className="text-sm font-medium text-[var(--accent)] transition hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </article>
+            <article
+              key={project.slug}
+              data-project-card
+              className={`group w-[88%] min-w-[88%] snap-center rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 transition duration-300 transform-gpu md:w-[46%] md:min-w-[46%] lg:w-[29%] lg:min-w-[29%] ${
+                index === activeIndex
+                  ? "scale-[1.02] opacity-100 border-[var(--accent)]/35 shadow-[0_20px_48px_rgba(0,0,0,0.45)]"
+                  : Math.abs(index - activeIndex) === 1
+                    ? "scale-[1] opacity-94 shadow-none"
+                    : "scale-[0.94] opacity-68 blur-[0.3px] shadow-none"
+              } hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:opacity-100 hover:blur-0`}
+            >
+              <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
+                {project.oneLiner}
+              </p>
+              <h3 className="mt-2 text-xl font-semibold text-[var(--text-strong)]">
+                {project.name}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+                {project.description}
+              </p>
+              <ul className="mt-4 space-y-2">
+                {project.highlights.slice(0, 2).map((item) => (
+                  <li key={item} className="text-sm text-[var(--text-muted)]">
+                    - {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {project.stack.map((tech) => (
+                  <span
+                    key={tech}
+                  className={`rounded-full border px-2.5 py-1 text-xs ${getTechBadgeClass(tech)}`}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                {project.links.map((link) => (
+                  <a
+                    key={`${project.slug}-${link.label}`}
+                    href={link.href}
+                    className="text-sm font-medium text-[var(--accent)] transition hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </article>
           ))}
         </div>
       </div>
