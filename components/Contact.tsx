@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { TerminalTypewriter } from "@/components/TerminalTypewriter";
 import { siteData } from "@/content/siteData";
 
 export function Contact() {
@@ -22,12 +23,7 @@ export function Contact() {
       className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8"
     >
       <div className="rounded-3xl border border-white/10 bg-[var(--panel)] p-8 sm:p-10">
-        <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
-          $ ping linn --for opportunities
-          <span className="command-cursor" aria-hidden>
-            _
-          </span>
-        </p>
+        <TerminalTypewriter command="ping linn --for opportunities" />
         <h2 className="mt-3 text-4xl font-semibold text-[var(--text-strong)] sm:text-5xl">
           Let&apos;s build something that matters
         </h2>
