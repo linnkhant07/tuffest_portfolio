@@ -1,8 +1,8 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Html } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { Float, Html, Center, Text3D } from "@react-three/drei";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 type JourneyStop = {
@@ -141,22 +141,109 @@ function SignPosts({
   );
 }
 
-function EndMountains() {
+const CREED_FONT = "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json";
+const CREED_TEXT = "UNTIL DEATH, ALL DEFEAT IS PSYCHOLOGICAL";
+
+function Firefly({ origin }: { origin: [number, number, number] }) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const lightRef = useRef<THREE.PointLight>(null!);
+  // Deterministic seeds via golden-ratio spacing so the pattern is always organic
+  const seeds = useMemo(
+    () => Array.from({ length: 8 }, (_, i) => (i * 2.618 + 0.4) % (Math.PI * 2)),
+    [],
+  );
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    // Four waves with irrational frequency ratios — never repeat, never pendulum
+    const rawX =
+      Math.sin(t * 0.21 + seeds[0]) * 7.0 +   // wide drift
+      Math.sin(t * 0.57 + seeds[1]) * 4.2 +   // medium wander
+      Math.sin(t * 1.29 + seeds[2]) * 1.6 +   // wobble
+      Math.sin(t * 0.33 + seeds[3]) * 1.8;    // cross-drift
+    const x = origin[0] + Math.max(-14, Math.min(14, rawX));
+    const rawY =
+      Math.sin(t * 0.39 + seeds[4]) * 0.9 +
+      Math.sin(t * 1.11 + seeds[5]) * 0.45;
+    const y = origin[1] + Math.max(-0.8, rawY);
+    const z = origin[2] + Math.sin(t * 0.51 + seeds[6]) * 2.8;
+    // Flicker: fast irregular pulse
+    const flicker =
+      4.2 +
+      Math.sin(t * 11.7 + seeds[7]) * 1.4 +
+      Math.sin(t * 19.3 + seeds[0]) * 0.8;
+
+    groupRef.current?.position.set(x, y, z);
+    if (lightRef.current) lightRef.current.intensity = flicker;
+  });
+
   return (
-    <group position={[0, 0.05, -162]}>
-      <mesh position={[-2.8, 1.2, 0]} rotation={[0, 0, 0]}>
-        <coneGeometry args={[4.2, 5.2, 4]} />
-        <meshStandardMaterial color="#233a2f" roughness={0.95} metalness={0.03} />
+    <group ref={groupRef}>
+      <mesh>
+        <sphereGeometry args={[0.04, 6, 6]} />
+        <meshBasicMaterial color="#9effc8" />
       </mesh>
-      <mesh position={[2.2, 1.7, -2]}>
-        <coneGeometry args={[5.8, 7.2, 4]} />
-        <meshStandardMaterial color="#2b4638" roughness={0.92} metalness={0.04} />
-      </mesh>
-      <mesh position={[6.4, 1.1, 0.8]}>
-        <coneGeometry args={[3.6, 4.8, 4]} />
-        <meshStandardMaterial color="#1f342a" roughness={0.95} metalness={0.03} />
-      </mesh>
-      <pointLight position={[2.4, 6.4, 2]} intensity={0.5} color="#8ec8a8" distance={28} />
+      <pointLight ref={lightRef} color="#42e87c" intensity={4.2} distance={60} decay={1.4} />
+    </group>
+  );
+}
+
+function WarriorCreed({ progress = 0 }: { progress?: number }) {
+  const revealed = Math.max(0, Math.min(1, (progress - 0.78) / 0.18));
+  const origin: [number, number, number] = [2, 3.2, -162];
+
+  return (
+    <group>
+      {/* Backlights — dark green, flanking the text from behind */}
+      <pointLight
+        position={[origin[0] - 16, origin[1] + 3, origin[2] - 3]}
+        intensity={revealed * 2.8}
+        color="#183d22"
+        distance={55}
+      />
+      <pointLight
+        position={[origin[0] + 16, origin[1] + 1, origin[2] - 3]}
+        intensity={revealed * 2.2}
+        color="#102a18"
+        distance={50}
+      />
+      {/* Rim light from slightly above-front */}
+      <pointLight
+        position={[origin[0], origin[1] + 6, origin[2] + 8]}
+        intensity={revealed * 1.4}
+        color="#1f5c30"
+        distance={42}
+      />
+
+      <group position={origin}>
+        <Suspense fallback={null}>
+          <Center>
+            <Text3D
+              font={CREED_FONT}
+              size={0.82}
+              height={0.12}
+              curveSegments={6}
+              bevelEnabled
+              bevelThickness={0.015}
+              bevelSize={0.01}
+              bevelSegments={2}
+            >
+              {CREED_TEXT}
+              <meshStandardMaterial
+                color="#0e2218"
+                metalness={0.2}
+                roughness={0.82}
+                emissive="#061410"
+                emissiveIntensity={0.25}
+                transparent
+                opacity={revealed}
+              />
+            </Text3D>
+          </Center>
+        </Suspense>
+      </group>
+
+      <Firefly origin={origin} />
     </group>
   );
 }
@@ -186,7 +273,7 @@ export function InteractiveJourney3D({
 
         <PathMeshes />
         <SignPosts milestones={milestones} activeIndex={activeIndex} />
-        <EndMountains />
+        <WarriorCreed progress={progress} />
         <CameraRig progress={progress} />
       </Canvas>
     </div>
