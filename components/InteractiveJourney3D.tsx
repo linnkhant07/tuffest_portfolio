@@ -142,7 +142,7 @@ function SignPosts({
 }
 
 const CREED_FONT = "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json";
-const CREED_TEXT = "UNTIL DEATH, ALL DEFEAT IS PSYCHOLOGICAL";
+const CREED_TEXT = "UNTIL DEATH ALL DEFEAT IS PSYCHOLOGICAL";
 
 function Firefly({ origin }: { origin: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null!);

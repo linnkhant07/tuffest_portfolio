@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { TerminalTypewriter } from "@/components/TerminalTypewriter";
 import { siteData } from "@/content/siteData";
 
 const techBadgeClasses: Record<string, string> = {
@@ -86,12 +87,7 @@ export function Projects() {
     >
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
-            $ ls -a projects
-            <span className="command-cursor" aria-hidden>
-              _
-            </span>
-          </p>
+          <TerminalTypewriter command="ls -a projects" />
           <h2 className="mt-2 text-3xl font-semibold text-[var(--text-strong)] sm:text-4xl">
             Best Works So Far
           </h2>

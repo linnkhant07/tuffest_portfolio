@@ -1,4 +1,5 @@
 import { siteData } from "@/content/siteData";
+import { TerminalTypewriter } from "@/components/TerminalTypewriter";
 
 export function About() {
   return (
@@ -6,12 +7,7 @@ export function About() {
       id="about"
       className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8"
     >
-      <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
-        $ cat aboutme.txt
-        <span className="command-cursor" aria-hidden>
-          _
-        </span>
-      </p>
+      <TerminalTypewriter command="cat aboutme.txt" />
       <h2 className="mt-2 text-3xl font-semibold text-[var(--text-strong)] sm:text-4xl">
         Who is Linn?
       </h2>

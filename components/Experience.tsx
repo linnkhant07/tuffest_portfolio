@@ -1,4 +1,5 @@
 import { siteData } from "@/content/siteData";
+import { TerminalTypewriter } from "@/components/TerminalTypewriter";
 
 function getOrgMeta(org: string) {
   const key = org.toLowerCase();
@@ -38,12 +39,7 @@ export function Experience() {
       id="experience"
       className="mx-auto w-full max-w-6xl border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8"
     >
-      <p className="font-mono text-sm tracking-[0.08em] text-[#ff5f56]">
-        $ less work-experience.txt
-        <span className="command-cursor" aria-hidden>
-          _
-        </span>
-      </p>
+      <TerminalTypewriter command="less work-experience.txt" />
       <h2 className="mt-2 text-3xl font-semibold text-[var(--text-strong)] sm:text-4xl">
         Built in fast-moving environments
       </h2>
