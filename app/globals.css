@@ -48,3 +48,102 @@ a,
 button {
   outline-color: transparent;
 }
+
+.stickman-body {
+  animation: stickmanBodyBob 680ms ease-in-out infinite;
+}
+
+.stickman-arm-left {
+  transform-origin: 22px 24px;
+  animation: stickmanArmLeft 680ms ease-in-out infinite;
+}
+
+.stickman-arm-right {
+  transform-origin: 22px 24px;
+  animation: stickmanArmRight 680ms ease-in-out infinite;
+}
+
+.stickman-leg-left {
+  transform-origin: 22px 38px;
+  animation: stickmanLegLeft 680ms ease-in-out infinite;
+}
+
+.stickman-leg-right {
+  transform-origin: 22px 38px;
+  animation: stickmanLegRight 680ms ease-in-out infinite;
+}
+
+.stickman-pace {
+  animation: stickmanPaceShift 1400ms ease-in-out infinite;
+}
+
+@keyframes stickmanBodyBob {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-1.4px);
+  }
+}
+
+@keyframes stickmanArmLeft {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes stickmanArmRight {
+  0%,
+  100% {
+    transform: rotate(12deg);
+  }
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes stickmanLegLeft {
+  0%,
+  100% {
+    transform: rotate(11deg);
+  }
+  50% {
+    transform: rotate(-17deg);
+  }
+}
+
+@keyframes stickmanLegRight {
+  0%,
+  100% {
+    transform: rotate(-9deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes stickmanPaceShift {
+  0%,
+  100% {
+    filter: brightness(0.96);
+  }
+  50% {
+    filter: brightness(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stickman-body,
+  .stickman-arm-left,
+  .stickman-arm-right,
+  .stickman-leg-left,
+  .stickman-leg-right,
+  .stickman-pace {
+    animation: none !important;
+  }
+}
