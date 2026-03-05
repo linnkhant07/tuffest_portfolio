@@ -158,17 +158,17 @@ export const siteData: SiteData = {
   ],
   projects: [
     {
-      slug: "kel-sel-yay-placeholder",
-      name: "Kel Sel Yay - Crisis Response Platform (Placeholder)",
-      oneLiner: "Real-time crisis-aid platform launched after the earthquake.",
+      slug: "snipr",
+      name: "Snipr",
+      oneLiner: "Mobile game that digitizes Assassin — snipe friends by photographing them.",
       description:
-        "Built and shipped a missing-person coordination platform after the 7.7 Thailand-Myanmar earthquake.",
+        "Cross-platform app where players photograph friends in public to \"snipe\" them, with real-time leaderboards and streak tracking.",
       highlights: [
-        "Onboarded 7.1K+ users and coordinated 18K+ missing-person reports",
-        "Handled 20K+ daily queries at 99.9% uptime",
+        "React Native + Expo + TypeScript with live feed of recent snipes among friends",
+        "AWS Amplify backend: auth, image uploads, and ACID transactions for scores and streaks",
       ],
-      stack: ["Next.js", "Node.js", "MongoDB", "AWS S3"],
-      links: [{ label: "GitHub", href: "https://github.com/linnkhant07" }],
+      stack: ["React Native", "Expo", "TypeScript", "AWS Amplify", "Node.js"],
+      links: [{ label: "GitHub", href: "https://github.com/clarkipeng/snipr" }],
     },
     {
       slug: "kel-sel-yay",
@@ -210,17 +210,17 @@ export const siteData: SiteData = {
       links: [{ label: "GitHub", href: "https://github.com/linnkhant07" }],
     },
     {
-      slug: "underwater-rover-next",
-      name: "Underwater Rover (Placeholder)",
-      oneLiner: "Competition rover with telemetry and control tooling.",
+      slug: "darkroom",
+      name: "Darkroom",
+      oneLiner: "3D dark room with cursor-tracking flashlight and physics.",
       description:
-        "Engineered an Arduino-powered rover and Python control/visualization stack for the MATE ROV competition.",
+        "Interactive 3D web experience: explore a dark room with a cursor-tracking flashlight and physics-driven objects.",
       highlights: [
-        "Ranked 13th out of 79 teams globally",
-        "Achieved 95% positioning accuracy during test runs",
+        "Drag-and-drop + Cannon-ES physics: toss a ball, knock over a pen, trigger a computer boot",
+        "Motion trails, spotlight tracking, and shooting-star effects with Three.js and WebGL",
       ],
-      stack: ["Python", "Arduino", "Pandas", "Matplotlib", "Pygame"],
-      links: [{ label: "GitHub", href: "https://github.com/linnkhant07" }],
+      stack: ["JavaScript", "Three.js", "Blender", "Cannon-ES"],
+      links: [{ label: "GitHub", href: "https://github.com/linnkhant07/Darkroom" }],
     },
   ],
   experience: [

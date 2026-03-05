@@ -17,6 +17,14 @@ const techBadgeClasses: Record<string, string> = {
   pandas: "border-[#8f6eff]/45 bg-[#8f6eff]/15 text-[#ccbeff]",
   matplotlib: "border-[#ff7f50]/45 bg-[#ff7f50]/15 text-[#ffb49a]",
   pygame: "border-[#7cc34b]/45 bg-[#7cc34b]/15 text-[#bde79f]",
+  "three.js": "border-[#000000]/45 bg-[#000000]/20 text-[#d0d0d0]",
+  "cannon-es": "border-[#6b5b95]/45 bg-[#6b5b95]/15 text-[#b8a9d4]",
+  blender: "border-[#f5792a]/45 bg-[#f5792a]/15 text-[#ffb380]",
+  javascript: "border-[#f7df1e]/45 bg-[#f7df1e]/15 text-[#f7df1e]",
+  "react native": "border-[#61dafb]/45 bg-[#61dafb]/15 text-[#61dafb]",
+  expo: "border-[#000020]/45 bg-[#000020]/30 text-[#e0e0e0]",
+  typescript: "border-[#3178c6]/45 bg-[#3178c6]/15 text-[#7ec8f0]",
+  "aws amplify": "border-[#ff9900]/45 bg-[#ff9900]/15 text-[#ffc46b]",
 };
 
 function getTechBadgeClass(tech: string) {
