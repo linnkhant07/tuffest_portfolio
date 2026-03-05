@@ -50,6 +50,14 @@ export function Contact() {
           >
             Email me
           </a>
+          <a
+            href={siteData.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-white/20 bg-[var(--panel-soft)] px-5 py-3 text-sm font-semibold text-[var(--text-muted)] transition hover:border-white/40 hover:text-[var(--text-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+          >
+            View Resume
+          </a>
           <button
             type="button"
             onClick={handleCopy}

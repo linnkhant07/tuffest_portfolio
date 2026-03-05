@@ -42,6 +42,14 @@ export function NavBar() {
 
         <div className="flex items-center gap-3">
           <a
+            href={siteData.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-[var(--text-muted)] transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] md:inline-flex"
+          >
+            View Resume
+          </a>
+          <a
             href={`mailto:${siteData.email}`}
             className="hidden rounded-full border border-[var(--accent)]/40 bg-[var(--panel-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)] transition hover:border-[var(--accent)] hover:bg-[var(--panel)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] md:inline-flex"
           >
@@ -75,7 +83,16 @@ export function NavBar() {
                 </a>
               </li>
             ))}
-            <li className="mt-2">
+            <li className="mt-2 space-y-1 border-t border-white/10 pt-2">
+              <a
+                href={siteData.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-md px-2 py-2 text-sm text-[var(--text-muted)] transition hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              >
+                View Resume
+              </a>
               <a
                 href={`mailto:${siteData.email}`}
                 onClick={() => setIsOpen(false)}

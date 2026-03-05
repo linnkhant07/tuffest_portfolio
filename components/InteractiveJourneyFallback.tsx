@@ -59,7 +59,7 @@ export function InteractiveJourneyFallback({
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
                   {item.period}
                 </p>
-                <div className="relative mt-4 h-52 w-full overflow-hidden rounded-lg border border-white/10 bg-black/20">
+                <div className="relative mt-4 h-60 w-full overflow-hidden rounded-lg border border-white/10 bg-black/20">
                   {item.image ? (
                     <>
                       <img
@@ -84,8 +84,8 @@ export function InteractiveJourneyFallback({
                     </div>
                   )}
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-                  {[item.line1, item.line2, item.line3].join(" ")}
+                <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-[var(--text-muted)]">
+                  {[item.line1, item.line2, item.line3].filter(Boolean).join(" ")}
                 </p>
               </article>
             </li>

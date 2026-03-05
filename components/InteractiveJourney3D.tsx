@@ -173,7 +173,7 @@ function SignPosts({
                   <p className="mt-0.5 text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">
                     {item.period}
                   </p>
-                  <div className="relative mt-2 h-24 w-full overflow-hidden rounded border border-white/12 bg-black/20">
+                  <div className="relative mt-2 h-28 w-full overflow-hidden rounded border border-white/12 bg-black/20">
                     {item.image ? (
                       <>
                         <img
@@ -198,8 +198,8 @@ function SignPosts({
                       </div>
                     )}
                   </div>
-                  <p className="mt-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
-                    {[item.line1, item.line2, item.line3].join(" ")}
+                  <p className="mt-2 line-clamp-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
+                    {[item.line1, item.line2, item.line3].filter(Boolean).join(" ")}
                   </p>
                 </div>
               </Html>

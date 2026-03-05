@@ -41,6 +41,7 @@ export type SiteData = {
   tagline: string;
   location?: string;
   email: string;
+  resume: string;
   github: string;
   linkedin: string;
   aboutParagraphs: string[];
@@ -56,13 +57,15 @@ export const siteData: SiteData = {
     "SWE across backend, full-stack, and agentic systems; I design and deliver scalable systems at speed for web, mobile, and desktop.",
   location: "UCLA CS '27",
   email: "linn.thuya247@gmail.com",
+  resume:
+    "https://drive.google.com/file/d/12K3Bmu1VC7AEYtUyGZB0AKQn__ku0C-e/view?usp=sharing",
   github: "https://github.com/linnkhant07",
   linkedin: "https://www.linkedin.com/in/linn-khant-thuya/",
   aboutParagraphs: [
-    "I am a first-generation student at UCLA studying CS and a software engineer who learned by building and shipping in real environments.",
-    "I care about building software that actually helps people, whether that is developers or general users, in real-world use cases.",
-    "I move fast, iterate quickly, and keep quality high.",
-    "If you have internship, full-time, mentorship, startup, or project opportunities, I'd love to connect!",
+    "I'm a first-generation student at UCLA studying CS.",
+    "I love building things that work: systems that scale, clean code that lasts, and products that actually help people.",
+    "When I'm not coding, I love soccer, running, and hiking.",
+    "I've met amazing people and made friends who push me to be better. These are the glimpses.",
   ],
   skills: [
     {
