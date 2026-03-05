@@ -2,9 +2,11 @@ type JourneyStop = {
   id: string;
   title: string;
   period: string;
-  copy: string;
-  detail: string;
-  imageHint: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  image?: string;
+  imagePosition?: "top" | "center" | "bottom";
 };
 
 type InteractiveJourneyFallbackProps = {
@@ -51,19 +53,40 @@ export function InteractiveJourneyFallback({
                 }`}
               />
               <article className="rounded-2xl border border-white/10 bg-[var(--panel-soft)] p-6 sm:p-7">
-                <p className="text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
-                  {item.period}
-                </p>
-                <h3 className="mt-2 text-xl font-semibold text-[var(--text-strong)]">
+                <h3 className="text-xl font-semibold text-[var(--text-strong)]">
                   {item.title}
                 </h3>
-                <div className="mt-4 rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(45,57,54,0.46),rgba(20,25,24,0.8))] p-3">
-                  <div className="flex h-28 items-center justify-center rounded border border-dashed border-white/20 bg-black/25 px-3 text-center text-xs text-[var(--text-dim)]">
-                    {item.imageHint}
-                  </div>
+                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[var(--text-dim)]">
+                  {item.period}
+                </p>
+                <div className="relative mt-4 h-52 w-full overflow-hidden rounded-lg border border-white/10 bg-black/20">
+                  {item.image ? (
+                    <>
+                      <img
+                        src={item.image}
+                        alt=""
+                        className={`h-full w-full object-cover ${
+                          item.imagePosition === "top"
+                            ? "object-[50%_35%]"
+                            : item.imagePosition === "bottom"
+                              ? "object-bottom"
+                              : "object-center"
+                        }`}
+                      />
+                      <div
+                        className="pointer-events-none absolute inset-0 rounded-lg border-none bg-[rgba(13,28,22,0.52)] mix-blend-multiply"
+                        aria-hidden
+                      />
+                    </>
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-sm text-[var(--text-dim)]">
+                      Image
+                    </div>
+                  )}
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">{item.copy}</p>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--text-dim)]">{item.detail}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+                  {[item.line1, item.line2, item.line3].join(" ")}
+                </p>
               </article>
             </li>
           ))}

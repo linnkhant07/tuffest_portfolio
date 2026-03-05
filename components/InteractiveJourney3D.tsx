@@ -9,9 +9,11 @@ type JourneyStop = {
   id: string;
   title: string;
   period: string;
-  copy: string;
-  detail: string;
-  imageHint: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  image?: string;
+  imagePosition?: "top" | "center" | "bottom";
 };
 
 type InteractiveJourney3DProps = {
@@ -36,7 +38,7 @@ function CameraRig({ progress }: { progress: number }) {
     );
     const clamped = THREE.MathUtils.clamp(smoothedProgress.current, 0, 1);
     // Let the camera travel just a bit farther down the road.
-    const targetZ = 10 - clamped * 215;
+    const targetZ = 10 - clamped * 210;
     const targetX = Math.sin(clamped * Math.PI * 0.85) * 0.38;
     const targetY = 2.45 + Math.sin(clamped * Math.PI) * 0.04;
 
@@ -165,19 +167,39 @@ function SignPosts({
                       : "border-white/15 bg-[rgba(18,22,22,0.8)]"
                   }`}
                 >
-                  <p className="text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">
-                    {item.period}
-                  </p>
-                  <p className="mt-1 text-xs font-semibold text-[var(--text-strong)]">
+                  <p className="text-xs font-semibold text-[var(--text-strong)]">
                     {item.title}
                   </p>
-                  <div className="mt-2 rounded border border-white/12 bg-[linear-gradient(135deg,rgba(61,75,70,0.42),rgba(24,30,29,0.72))] p-2">
-                    <div className="flex h-32 items-center justify-center rounded border border-dashed border-white/20 bg-black/20 px-2 text-center text-[10px] text-[var(--text-dim)]">
-                      {item.imageHint}
-                    </div>
+                  <p className="mt-0.5 text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">
+                    {item.period}
+                  </p>
+                  <div className="relative mt-2 h-24 w-full overflow-hidden rounded border border-white/12 bg-black/20">
+                    {item.image ? (
+                      <>
+                        <img
+                          src={item.image}
+                          alt=""
+                          className={`h-full w-full object-cover ${
+                            item.imagePosition === "top"
+                              ? "object-[50%_35%]"
+                              : item.imagePosition === "bottom"
+                                ? "object-bottom"
+                                : "object-center"
+                          }`}
+                        />
+                        <div
+                          className="pointer-events-none absolute inset-0 rounded border-none bg-[rgba(13,28,22,0.52)] mix-blend-multiply"
+                          aria-hidden
+                        />
+                      </>
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[10px] text-[var(--text-dim)]">
+                        Image
+                      </div>
+                    )}
                   </div>
                   <p className="mt-2 text-[10px] leading-relaxed text-[var(--text-muted)]">
-                    {item.detail}
+                    {[item.line1, item.line2, item.line3].join(" ")}
                   </p>
                 </div>
               </Html>
