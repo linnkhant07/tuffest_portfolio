@@ -9,65 +9,73 @@ type JourneyStop = {
   id: string;
   title: string;
   period: string;
-  copy: string;
-  detail: string;
-  imageHint: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  /** Optional image path (e.g. /images/journey/pcc.jpg) or URL */
+  image?: string;
+  /** Optional object-position: "top" | "center" | "bottom" to frame the image */
+  imagePosition?: "top" | "center" | "bottom";
 };
 
 const milestones: JourneyStop[] = [
   {
     id: "pcc-foundation",
-    title: "PCC – New Country, New Start",
-    period: "Foundation",
-    copy: "Landed at Pasadena City College with a chip on my shoulder and something to prove.",
-    detail:
-      "Figured out college, work, and immigration all at once. Built core CS fundamentals and the study discipline that still carries everything else.",
-    imageHint: "PCC campus at dusk, notebook open next to a cheap laptop",
+    title: "Pasadena City College",
+    period: "New Ground",
+    line1: "Starting fresh in a new country and a new system.",
+    line2: "Tutored students, led STEM clubs, and organized hackathons.",
+    line3: "Where I found my footing and started building momentum.",
+    image: "/images/pccCampus.jpg",
   },
   {
     id: "caltech-research",
     title: "Caltech Research",
-    period: "Touching the Frontier",
-    copy: "Stepped into Caltech labs to work on real research, not just problem sets.",
-    detail:
-      "Learned how to read papers, design experiments, and ship code that scientists can trust. Got comfortable being the least experienced person in the room and catching up fast.",
-    imageHint: "Terminal window next to messy whiteboard equations",
+    period: "Into the Deep End",
+    line1: "My first step into real research.",
+    line2:
+      "Worked with a Caltech postdoc on reinforcement learning and digging through research papers.",
+    line3:
+      "Built experiments, asked better questions, and learned how research actually works.",
+    image: "/images/linnCaltech.jpeg",
+    imagePosition: "top",
   },
   {
     id: "jpl-intern",
-    title: "NASA JPL – Engineering",
-    period: "Mission-Scale Work",
-    copy: "Joined JPL to build tools that support actual space missions, not class projects.",
-    detail:
-      "Shipped data pipelines and internal tools used by mission teams. Wrote code that had to be correct, documented, and reproducible — not just clever.",
-    imageHint: "Earth and Venus side‑by‑side on mission dashboards",
+    title: "NASA JPL",
+    period: "A Trip to Venus",
+    line1: "Software Engineering Intern — Summer 2025.",
+    line2:
+      "Worked under the VERITAS mission team on image processing pipelines for planetary surface data.",
+    line3: "The first time my code pointed toward another planet.",
+    image: "/images/linnJPL.jpeg",
   },
   {
-    id: "jpl-striker",
-    title: "JPL Striker",
-    period: "Pressure + Play",
-    copy: "Led the line as striker for JPL’s soccer team — same competitive edge, different field.",
-    detail:
-      "Learned how much engineering feels like sport: communication, positioning, and knowing when to take the risky shot instead of passing responsibility away.",
-    imageHint: "Floodlit field, boots and ball next to a JPL badge",
+    id: "jpl-asg",
+    title: "Aerospace Summer Games",
+    period: "Hat Trick",
+    line1: "Played striker for JPL's soccer team at AGU 2025.",
+    line2: "Might have scored a hat-trick.",
+    line3: "JOGA BONITO!",
+    image: "/images/asg25pic.jpeg",
   },
   {
     id: "ucla",
     title: "UCLA",
-    period: "Systems & Scale",
-    copy: "Leveled up in systems, algorithms, and shipping work that has to handle real load.",
-    detail:
-      "Balanced heavy theory with projects, clubs, and mentoring. Learned to move from \"I can code this\" to \"I can design, communicate, and own this end‑to‑end.\"",
-    imageHint: "UCLA campus evening skyline with terminal open on a laptop",
+    period: "Finally a Bruin",
+    line1: "Transferred to UCLA in Fall 2025 to continue studying computer science.",
+    line2: "Took on harder systems, ML, and large-scale software projects.",
+    line3: "Leveled up the engineering mindset.",
+    image: "/images/uclaCampus.jpg",
   },
   {
     id: "linkedin-intern",
-    title: "LinkedIn (Incoming)",
-    period: "Next Chapter",
-    copy: "Now aiming at internet scale — bringing the same scrappy PCC energy into LinkedIn.",
-    detail:
-      "Focused on landing quickly, learning the stack, and shipping changes that actually move product metrics, not just look good on a résumé.",
-    imageHint: "LinkedIn feed UI with devtools open and breakpoints set",
+    title: "LinkedIn",
+    period: "Next Stop: The Bay",
+    line1: "Incoming Software Engineering Intern — Summer 2026.",
+    line2: "Excited to work on systems used by millions.",
+    line3: "The journey continues.",
+    image: "/images/lilogo.jpg",
   },
 ];
 
@@ -158,7 +166,7 @@ export function InteractiveJourney() {
     <section
       id="journey"
       ref={sectionRef}
-      className={`relative border-y border-white/10 ${useFallback ? "" : "h-[600vh]"}`}
+      className={`relative border-y border-white/10 ${useFallback ? "" : "h-[500vh]"}`}
     >
       {useFallback ? (
         <InteractiveJourneyFallback
