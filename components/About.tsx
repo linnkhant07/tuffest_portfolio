@@ -74,8 +74,7 @@ export function About() {
               {index === 2 ? (
                 <>
                   <span className="line-through">When I am out of LLM tokens</span>{" "}
-                  I mean when I'm not coding, I love to play soccer, running, and
-                  hiking.
+                  I mean when I'm not coding, I love to play soccer, run and hike.
                 </>
               ) : (
                 paragraph
