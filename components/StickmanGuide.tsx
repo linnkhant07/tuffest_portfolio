@@ -55,16 +55,15 @@ function InternshipTarget({
 }) {
   return (
     <p
-      className={`px-1 text-sm font-semibold tracking-wide text-[var(--accent-strong)] [text-shadow:0_0_10px_rgba(130,214,159,0.78),0_0_26px_rgba(109,184,137,0.82),0_0_44px_rgba(109,184,137,0.62)] ${
+      className={`whitespace-nowrap px-1 text-sm font-semibold tracking-wide text-[var(--accent-strong)] will-change-transform [backface-visibility:hidden] [text-shadow:0_0_10px_rgba(130,214,159,0.78),0_0_26px_rgba(109,184,137,0.82),0_0_44px_rgba(109,184,137,0.62)] ${
         visible ? "opacity-100" : "opacity-0"
       } transition-opacity duration-200`}
       style={{
-        transform: `translateY(${bob}px) rotate(${tilt}deg)`,
-        filter: "drop-shadow(0 0 24px rgba(109,184,137,0.68)) drop-shadow(0 0 42px rgba(109,184,137,0.42))",
+        transform: `translate3d(0, ${bob}px, 0) rotate(${tilt}deg)`,
       }}
       aria-hidden
     >
-      &quot;Fall 2026 Internship&quot;
+      &quot;Spring 2026 Internship&quot;
     </p>
   );
 }

@@ -1,9 +1,8 @@
 import { siteData } from "@/content/siteData";
 
 const timeline = [
-  { label: "Prev", value: "NASA JPL" },
+  { label: "Prev", value: "Intern @ LinkedIn" },
   { label: "Current", value: "UCLA" },
-  { label: "Next", value: "Intern @ LinkedIn (Summer)" },
 ];
 
 export function Hero() {

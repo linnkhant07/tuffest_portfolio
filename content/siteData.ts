@@ -148,13 +148,13 @@ export const siteData: SiteData = {
       id: "linkedin",
       title: "LinkedIn",
       subtitle: "Software Engineering Intern",
-      period: "Incoming Jun 2026 - Sep 2026",
+      period: "Jun 2026 - Sep 2026",
       description:
-        "Selected for LinkedIn's Summer 2026 software engineering intern cohort.",
+        "Software engineering intern at LinkedIn, Summer 2026.",
       bullets: [
-        "Preparing to contribute to internet-scale product systems",
-        "Focused on backend and full-stack engineering growth",
-        "Excited to collaborate in high-impact production environments",
+        "Contributed to internet-scale product systems",
+        "Focused on backend and full-stack engineering",
+        "Collaborated in high-impact production environments",
       ],
       biomeStyle: "launchpad",
     },
@@ -230,10 +230,10 @@ export const siteData: SiteData = {
     {
       org: "LinkedIn",
       role: "Software Engineering Intern",
-      period: "Incoming Jun 2026 - Sep 2026",
+      period: "Jun 2026 - Sep 2026",
       bullets: [
-        "Selected for the Summer 2026 software engineering intern cohort",
-        "Preparing to contribute to large-scale production systems",
+        "Software engineering intern, Summer 2026 cohort",
+        "Contributed to large-scale production systems",
       ],
     },
     {

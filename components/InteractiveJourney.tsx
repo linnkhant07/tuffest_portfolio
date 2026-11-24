@@ -68,8 +68,8 @@ const milestones: JourneyStop[] = [
   {
     id: "linkedin-intern",
     title: "LinkedIn",
-    period: "Next Stop: The Bay",
-    line1: "Incoming SWE Intern Summer 2026. Systems at scale — the journey continues.",
+    period: "Summer 2026: The Bay",
+    line1: "SWE Intern Summer 2026. Systems at scale — the journey continues.",
     line2: "",
     line3: "",
     image: "/images/lilogo.jpg",
